@@ -30,4 +30,5 @@ pnpm-debug.log*
 /node_modules/.cache/tailwindcss
 
 # Uploads folder (if you don't want to check in uploaded files)
-/uploads/
+/uploads/*
+!/uploads/.gitkeep

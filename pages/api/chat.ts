@@ -28,14 +28,24 @@ export default async function handler(
                 if (ext === '.pdf') {
                     // --- PDF via pdf-parse ---
                     const dataBuffer = fs.readFileSync(fullPath);
-                    const pdfData = await pdfParse(dataBuffer);
-                    // Split on form-feed to get pages
-                    const pages = pdfData.text.split(/\f/);
-                    pages.forEach((text, idx) => {
-                        const snippet = text.slice(0, 2000); // tune as needed
+                    const pageSnippets: string[] = [];
+
+                    await pdfParse(dataBuffer, {
+                        pagerender: (pageData: any) =>
+                            pageData.getTextContent().then((tc: any) => {
+                                // join all text items on this page
+                                const pageText = tc.items.map((i: any) => i.str).join(' ');
+                                pageSnippets.push(pageText);
+                                // return empty so pdfData.text stays blank
+                                return '';
+                            }),
+                    });
+                    console.log('num pages:', pageSnippets.length); // → 25
+                    pageSnippets.forEach((text, i) => {
+                        const snippet = text.slice(0, 5000);
                         fileMessages.push({
                             role: 'system',
-                            content: `--- ${doc.originalFilename}, page ${idx + 1} ---\n${snippet}`,
+                            content: `--- ${doc.originalFilename}, page ${i + 1} ---\n${snippet}`,
                         });
                     });
 
@@ -76,6 +86,7 @@ export default async function handler(
             ...messages,
         ];
 
+        console.log(fullMessages);
         // Call the Chat API
         const chat = await openai.chat.completions.create({
             model: 'gpt-4o-mini',
