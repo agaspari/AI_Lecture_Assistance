@@ -20,7 +20,10 @@ export default async function handler(
     });
 
     form.parse(req, (err, fields, files) => {
-        if (err) return res.status(500).json({ error: err.message });
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: err.message })
+        };
         // Flatten files and return relative paths
         const fileArray = Object.values(files)
             .flat()
