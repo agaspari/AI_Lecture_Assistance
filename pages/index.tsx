@@ -1,37 +1,30 @@
-import React, { useState } from 'react';
-import { FilePanel } from '../components/FilePanel';
-import { ChatWindow } from '../components/ChatWindow';
-import { SystemPrompt } from '../components/SystemPrompt';
+import Link from 'next/link';
+import Image from 'next/image';
 
-interface FileInfo {
-    filepath: string;
-    originalFilename: string;
-}
-
-export default function Home() {
-    const [files, setFiles] = useState<FileInfo[]>([]);
-    const [prompt, setPrompt] = useState<string>('');
-
-    const handleRemoveFile = (filepath: string) => {
-        setFiles(prev => prev.filter(f => f.filepath !== filepath));
-    };
-
-    const handleUpload = (newFiles: FileInfo[]) => {
-        setFiles(prev => [
-            ...prev,
-            ...newFiles.filter(nf => !prev.some(f => f.filepath === nf.filepath))
-        ]);
-    };
-
+function HomePage() {
     return (
-        <div className="flex h-screen">
-            <FilePanel files={files} onUpload={handleUpload} onRemoveFile={handleRemoveFile} />
-            <div className="flex-1 min-h-0">
-                <ChatWindow systemPrompt={prompt} documents={files} />
-            </div>
-            <div className="w-1/4 flex flex-col min-h-0">
-                <SystemPrompt prompt={prompt} onChange={setPrompt} />
+        <div className="min-h-screen flex flex-col items-center justify-center bg-white text-gray-800 px-4">
+            <div className="flex flex-col items-center space-y-4 max-w-md w-full">
+                <Image
+                    src="/logo.png" // Replace with your own logo at /public/logo.png
+                    alt="Understandly Logo"
+                    width={240}
+                    height={240}
+                />
+                <h1 className="text-3xl font-bold">Welcome to Understandly</h1>
+                <p className="text-center text-gray-600">
+                    An AI-powered learning platform for students and teachers.
+                </p>
+                <Link href="/auth">
+                    <button className="mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+                        Login
+                    </button>
+                </Link>
             </div>
         </div>
     );
 }
+
+HomePage.auth = true;
+
+export default HomePage;

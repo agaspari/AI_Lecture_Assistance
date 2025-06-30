@@ -32,3 +32,5 @@ pnpm-debug.log*
 # Uploads folder (if you don't want to check in uploaded files)
 /uploads/*
 !/uploads/.gitkeep
+
+/generated/prisma
