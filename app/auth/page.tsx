@@ -1,5 +1,6 @@
 'use client';
-
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 import { useState } from 'react';
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react';
@@ -12,7 +13,14 @@ function AuthPage() {
     const [name, setName] = useState('');
     const [role, setRole] = useState('student');
 
+    const { data: session } = useSession();
     const router = useRouter();
+
+    useEffect(() => {
+        if (session) {
+            router.push("/dashboard");
+        }
+    }, [session]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

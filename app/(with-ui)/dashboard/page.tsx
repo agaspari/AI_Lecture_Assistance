@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSession, signIn } from 'next-auth/react';
-import { useEffect } from 'react';
-import { FilePanel } from '../../components/FilePanel';
-import { ChatWindow } from '../../components/ChatWindow';
-import { SystemPrompt } from '../../components/SystemPrompt';
+import { FilePanel } from '../../../components/FilePanel';
+import { ChatWindow } from '../../../components/ChatWindow';
+import { SystemPrompt } from '../../../components/SystemPrompt';
+import { Sidebar } from "@/components/Sidebar";
 
 interface FileInfo {
     filepath: string;
@@ -34,25 +34,28 @@ export default function Dashboard() {
     };
 
     if (status === 'loading') return <p>Loading...</p>;
+    if (!session) return null;
+
+    const role = session.user.role === 'teacher' ? 'teacher' : 'student';
 
     return (
-        <div>
-            <div className="p-6">
-                <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+        <div className="flex flex-col flex-1 overflow-hidden">
+            <div className="p-6 border-b">
+                <h1 className="text-2xl font-bold mb-1">Dashboard</h1>
                 <p className="text-lg">
-                    You are logged in as: <span className="font-semibold">{session?.user?.role}</span>
+                    You are logged in as: <span className="font-semibold">{role}</span>
                 </p>
             </div>
-            <div className="flex h-screen">
+
+            <div className="flex flex-1 min-h-0">
                 <FilePanel files={files} onUpload={handleUpload} onRemoveFile={handleRemoveFile} />
-                <div className="flex-1 min-h-0">
+                <div className="flex-1 min-h-0 overflow-auto">
                     <ChatWindow systemPrompt={prompt} documents={files} />
                 </div>
-                <div className="w-1/4 flex flex-col min-h-0">
+                <div className="w-1/4 min-w-[200px] flex flex-col min-h-0 border-l">
                     <SystemPrompt prompt={prompt} onChange={setPrompt} />
                 </div>
             </div>
         </div>
-
     );
 }
