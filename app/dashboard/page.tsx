@@ -1,9 +1,11 @@
+'use client';
+
 import React, { useState } from 'react';
 import { useSession, signIn } from 'next-auth/react';
 import { useEffect } from 'react';
-import { FilePanel } from '../components/FilePanel';
-import { ChatWindow } from '../components/ChatWindow';
-import { SystemPrompt } from '../components/SystemPrompt';
+import { FilePanel } from '../../components/FilePanel';
+import { ChatWindow } from '../../components/ChatWindow';
+import { SystemPrompt } from '../../components/SystemPrompt';
 
 interface FileInfo {
     filepath: string;

@@ -2,21 +2,18 @@
 module.exports = {
     reactStrictMode: true,
     swcMinify: true,
-};
+}
 
-// tailwind.config.js
 module.exports = {
-    content: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
-    theme: {
-        extend: {},
+    webpack(config, { isServer }) {
+        if (isServer) {
+            // don’t try to bundle these—just require them at runtime
+            config.externals.push('pdf-parse', 'mammoth')
+        }
+        return config
     },
-    plugins: [],
-};
-
-// postcss.config.js
-module.exports = {
-    plugins: {
-        tailwindcss: {},
-        autoprefixer: {},
-    },
-};
+    experimental: {
+        // on Next 13.x, you also need:
+        esmExternals: false
+    }
+}
