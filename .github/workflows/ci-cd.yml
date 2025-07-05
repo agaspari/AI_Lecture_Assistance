@@ -76,11 +76,11 @@ jobs:
       - name: Deploy to server
         run: |
           ssh -o StrictHostKeyChecking=no \
-              -p ${{ secrets.SSH_PORT }} \
+          -p ${{ secrets.SSH_PORT }} \
               ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            docker pull ${{ secrets.DOCKER_REGISTRY }}/myapp:latest
+            docker pull ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/myapp:latest
             docker stop myapp || true
-            docker rm   myapp   || true
+            docker rm myapp || true
             docker run -d \
               --name myapp \
               -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
@@ -88,5 +88,5 @@ jobs:
               -e NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}" \
               -e OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY }}" \
               -p 80:3000 \
-              ${{ secrets.DOCKER_REGISTRY }}/myapp:latest
+              ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/myapp:latest
           EOF
