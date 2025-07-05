@@ -5,7 +5,8 @@ import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
 
-export const authOptions: NextAuthOptions = {
+// Define authOptions locally (do not export to satisfy Next.js Route requirements)
+const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
             name: 'Credentials',
@@ -46,12 +47,12 @@ export const authOptions: NextAuthOptions = {
     },
 
     pages: {
-        signIn: '/auth'
+        signIn: '/login'
     }
 }
 
-// create the handler
+// Initialize the NextAuth handler
 const handler = NextAuth(authOptions)
 
-// export for both GET and POST
+// Export only the HTTP methods for the Route
 export { handler as GET, handler as POST }

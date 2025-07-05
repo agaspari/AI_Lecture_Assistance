@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-function HomePage() {
+export default function HomePage() {
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-white text-gray-800 px-4">
             <div className="flex flex-col items-center space-y-4 max-w-md w-full">
@@ -15,7 +15,7 @@ function HomePage() {
                 <p className="text-center text-gray-600">
                     An AI-powered learning platform for students and teachers.
                 </p>
-                <Link href="/auth">
+                <Link href="/login">
                     <button className="mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
                         Login
                     </button>
@@ -25,6 +25,3 @@ function HomePage() {
     );
 }
 
-HomePage.auth = true;
-
-export default HomePage;

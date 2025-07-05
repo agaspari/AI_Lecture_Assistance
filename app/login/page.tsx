@@ -4,14 +4,11 @@ import { useEffect } from "react";
 import { useState } from 'react';
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react';
-import axios from 'axios';
+import Link from 'next/link';
 
-function AuthPage() {
-    const [isLogin, setIsLogin] = useState(true);
+export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
-    const [role, setRole] = useState('student');
 
     const { data: session } = useSession();
     const router = useRouter();
@@ -24,19 +21,15 @@ function AuthPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (isLogin) {
-            const res = await signIn('credentials', {
-                redirect: false,
-                email,
-                password
-            });
 
-            if (res?.ok) router.push('/dashboard');
-            else alert('Login failed');
-        } else {
-            await axios.post('/api/register', { name, email, password, role });
-            setIsLogin(true); // Switch to login mode
-        }
+        const res = await signIn('credentials', {
+            redirect: false,
+            email,
+            password
+        });
+
+        if (res?.ok) router.push('/dashboard');
+        else alert('Login failed');
     };
 
     return (
@@ -45,18 +38,8 @@ function AuthPage() {
             <form>
                 <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md space-y-4">
                     <h2 className="text-2xl font-bold text-center">
-                        {isLogin ? 'Login to Your Account' : 'Create a New Account'}
+                        Login to Your Account
                     </h2>
-
-                    {!isLogin && (
-                        <input
-                            type="text"
-                            placeholder="Full Name"
-                            className="input"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                    )}
 
                     <input
                         type="email"
@@ -73,25 +56,16 @@ function AuthPage() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
 
-                    {!isLogin && (
-                        <select className="input" value={role} onChange={(e) => setRole(e.target.value)}>
-                            <option value="student">Student</option>
-                            <option value="teacher">Teacher</option>
-                        </select>
-                    )}
-
                     <button
                         className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
                         onClick={handleSubmit}
                     >
-                        {isLogin ? 'Login' : 'Register'}
+                        Login
                     </button>
 
                     <p className="text-center text-sm">
-                        {isLogin ? 'Need an account?' : 'Already have an account?'}{' '}
-                        <button className="text-blue-500 underline" onClick={() => setIsLogin(!isLogin)}>
-                            {isLogin ? 'Register' : 'Login'}
-                        </button>
+                        Need an account?{' '}
+                        <Link href="/register" className="text-blue-600 hover:underline">Register</Link>
                     </p>
                 </div>
                 <style jsx>{`
@@ -102,10 +76,7 @@ function AuthPage() {
                         border-radius: 5px;
                     }
                 `}</style>
-            </form>
-        </div>
+            </form >
+        </div >
     );
 }
-
-AuthPage.auth = true;
-export default AuthPage;

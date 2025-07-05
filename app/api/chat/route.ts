@@ -3,7 +3,8 @@ import fs from 'fs'
 import path from 'path'
 import mammoth from 'mammoth'
 import pdfParse from 'pdf-parse'
-import { OpenAI } from 'openai'
+import { OpenAI, } from 'openai'
+import type { ChatCompletionMessageParam } from "openai/resources/chat";
 
 export const runtime = 'nodejs'
 
@@ -54,10 +55,10 @@ export async function POST(request: Request) {
             }
         }
 
-        const fullMessages = [
-            { role: 'system', content: systemPrompt },
-            ...fileMessages,
-            ...messages,
+        const fullMessages: ChatCompletionMessageParam[] = [
+            { role: "system", content: systemPrompt },
+            ...fileMessages as ChatCompletionMessageParam[],
+            ...messages as ChatCompletionMessageParam[],
         ]
 
         const chat = await openai.chat.completions.create({

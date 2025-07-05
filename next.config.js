@@ -1,19 +1,23 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
-}
 
-module.exports = {
+    // Emit a standalone build output for Docker
+    output: 'standalone',
+
     webpack(config, { isServer }) {
         if (isServer) {
             // don’t try to bundle these—just require them at runtime
-            config.externals.push('pdf-parse', 'mammoth')
+            config.externals.push('pdf-parse', 'mammoth');
         }
-        return config
+        return config;
     },
+
     experimental: {
-        // on Next 13.x, you also need:
-        esmExternals: false
-    }
-}
+        // on Next.js 13.x+, required for CJS externals
+        esmExternals: false,
+    },
+};
+
+module.exports = nextConfig;

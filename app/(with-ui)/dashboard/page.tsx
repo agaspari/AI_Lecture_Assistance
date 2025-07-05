@@ -34,9 +34,9 @@ export default function Dashboard() {
     };
 
     if (status === 'loading') return <p>Loading...</p>;
-    if (!session) return null;
+    if (!session?.user) return null;
 
-    const role = session.user.role === 'teacher' ? 'teacher' : 'student';
+    const role = session.user.role;
 
     return (
         <div className="flex flex-col flex-1 overflow-hidden">

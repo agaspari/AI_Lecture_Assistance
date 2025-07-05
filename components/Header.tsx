@@ -17,7 +17,7 @@ export function Header() {
                 <span>Welcome, {session.user?.name || session.user?.email}</span>
                 <button
                     className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"
-                    onClick={() => signOut({ callbackUrl: '/auth' })}
+                    onClick={() => signOut({ callbackUrl: '/login' })}
                 >
                     Logout
                 </button>
