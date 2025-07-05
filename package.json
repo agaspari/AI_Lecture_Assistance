@@ -3,8 +3,8 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "lint": "next lint",
-        "lint:fix": "next lint --fix",
+        "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+        "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
         "dev": "next dev",
         "build": "next build",
         "start": "next start"

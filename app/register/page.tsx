@@ -11,9 +11,9 @@ export default function RegisterSelection() {
                     {/* Learner Option */}
                     <div className="border p-6 rounded-lg flex flex-col justify-between text-center">
                         <div>
-                            <h3 className="text-xl font-semibold mb-2">I'm an Independent Learner</h3>
+                            <h3 className="text-xl font-semibold mb-2">I&apos;m an Independent Learner</h3>
                             <p className="text-gray-600 mb-4">
-                                Ideal if you're signing up for your own self-paced learning journey.
+                                Ideal if you&apos;re signing up for your own self-paced learning journey.
                             </p>
                         </div>
                         <Link
@@ -27,7 +27,7 @@ export default function RegisterSelection() {
                     {/* Parent Option */}
                     <div className="border p-6 rounded-lg flex flex-col justify-between text-center">
                         <div>
-                            <h3 className="text-xl font-semibold mb-2">I'm a Parent</h3>
+                            <h3 className="text-xl font-semibold mb-2">I&apos;m a Parent</h3>
                             <p className="text-gray-600 mb-4">
                                 Perfect for parents who want to register and manage student accounts.
                             </p>
