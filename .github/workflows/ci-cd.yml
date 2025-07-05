@@ -54,7 +54,9 @@ jobs:
       - name: Build & tag Docker image
         run: |
           IMAGE=${{ secrets.DOCKER_REGISTRY }}/myapp:${{ github.sha }}
-          docker build -t $IMAGE .
+          docker build \
+            --build-arg OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
+            -t $IMAGE .
           docker tag $IMAGE ${{ secrets.DOCKER_REGISTRY }}/myapp:latest
 
       - name: Push images
