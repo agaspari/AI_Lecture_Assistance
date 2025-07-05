@@ -87,6 +87,6 @@ jobs:
               -e NEXTAUTH_URL="${{ secrets.NEXTAUTH_URL }}" \
               -e NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}" \
               -e OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY }}" \
-              -p 80:3000 \
+              -p 8080:3000 \
               ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/myapp:latest
           EOF
