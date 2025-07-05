@@ -53,16 +53,16 @@ jobs:
 
       - name: Build & tag Docker image
         run: |
-          IMAGE=${{ secrets.DOCKER_REGISTRY }}/myapp:${{ github.sha }}
+          IMAGE=${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }}
           docker build \
             --build-arg OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
             -t $IMAGE .
-          docker tag $IMAGE ${{ secrets.DOCKER_REGISTRY }}/myapp:latest
+          docker tag $IMAGE ${{ secrets.DOCKER_USERNAME }}/myapp:latest
 
-      - name: Push images
+    - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_REGISTRY }}/myapp:${{ github.sha }}
-          docker push ${{ secrets.DOCKER_REGISTRY }}/myapp:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/myapp:latest
 
   deploy:
     needs: build-and-push
