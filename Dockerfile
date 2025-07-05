@@ -16,6 +16,9 @@ RUN npx prisma generate
 FROM node:20-alpine AS builder
 WORKDIR /app
 
+ARG OPENAI_API_KEY
+ENV OPENAI_API_KEY=$OPENAI_API_KEY
+
 # Reuse installed deps and generated Prisma client
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/prisma ./prisma
