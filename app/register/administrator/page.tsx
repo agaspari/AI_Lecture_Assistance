@@ -5,28 +5,42 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Link from 'next/link';
 
-export default function LearnerRegister() {
+export default function AdministratorRegister() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState<string | null>(null);
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        await axios.post('/api/register', {
-            name,
-            email,
-            password,
-            role: 'student',
-        });
-        router.push('/dashboard');
+        setError(null);
+
+        try {
+            const res = await axios.post('/api/register', {
+                name,
+                email,
+                password,
+                role: 'administrator',
+            });
+
+            console.log("Registration successful:", res.data);
+            router.push('/login');
+        } catch (err: any) {
+            console.error("Registration failed:", err);
+            if (err.response?.data?.message) {
+                setError(err.response.data.message);
+            } else {
+                setError("Something went wrong. Please try again.");
+            }
+        }
     };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
             <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md w-full max-w-md space-y-4">
                 <Link href="/register" className="text-blue-600 hover:underline text-sm">← Back</Link>
-                <h2 className="text-2xl font-bold text-center">Independent Learner Registration</h2>
+                <h2 className="text-2xl font-bold text-center">Adminstrator Registration</h2>
 
                 <input
                     type="text"
@@ -50,7 +64,12 @@ export default function LearnerRegister() {
                     onChange={(e) => setPassword(e.target.value)}
                 />
 
-                <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                {error && (
+                    <div className="text-red-600 text-sm text-center">
+                        {error}
+                    </div>
+                )}
+                <button type="submit" className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700">
                     Register
                 </button>
 
